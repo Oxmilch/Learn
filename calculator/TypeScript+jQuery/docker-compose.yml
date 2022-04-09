@@ -1,0 +1,19 @@
+version: '3'
+services:
+    app:
+        # 起動イメージ
+        image: node:16
+        # 環境変数
+        environment:
+            - DEBUG=app:*
+        tty: true
+        # ホスト側のポート：コンテナのポート
+        ports:
+            - '3000:3000'
+        # ホスト側のsrcをコンテナのappにマウント
+        volumes:
+            - ./src:/app
+        # 起動時のカレントフォルダ
+        working_dir: /app
+        # 起動後に実行するコマンド
+        command: npm start
