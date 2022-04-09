@@ -1,18 +1,19 @@
 version: '3'
 services:
-  app:
-    image: nginx:latest
-    container_name: "app"
-    ports:
-      - "8080:80"
-    volumes:
-      - ./src/html:/app
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-
-  node:
-    image: node:10
-    container_name: node
-    tty: true
-    working_dir: /usr/src/app
-    volumes:
-      - ./src:/usr/src/app
+    app:
+        # 起動イメージ
+        image: node:16
+        # 環境変数
+        environment:
+            - DEBUG=app:*
+        tty: true
+        # ホスト側のポート：コンテナのポート
+        ports:
+            - '3000:3000'
+        # ホスト側のsrcをコンテナのappにマウント
+        volumes:
+            - ./src:/app
+        # 起動時のカレントフォルダ
+        working_dir: /app
+        # 起動後に実行するコマンド
+        command: npm start
